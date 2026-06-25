@@ -1,0 +1,30 @@
+# Secrets — never commit
+*.credentials.json
+.credentials.json
+*.key
+pipe.key
+.claude.json
+.claude.json*
+settings.local.json
+
+# Private session data
+projects/
+sessions/
+session-env/
+history.jsonl
+.caveman-history.jsonl
+
+# Machine state / caches (reproducible)
+file-history/
+paste-cache/
+downloads/
+shell-snapshots/
+cache/
+plugins/
+stats-cache.json
+mcp-needs-auth-cache.json
+install-counts-cache.json
+.last-*
+backups/
+ide/
+daemon/

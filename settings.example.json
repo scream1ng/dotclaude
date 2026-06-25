@@ -1,0 +1,63 @@
+{
+  "model": "opus",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash|bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "lean-ctx hook rewrite"
+          }
+        ]
+      },
+      {
+        "matcher": "Read|read|ReadFile|read_file|View|view|Grep|grep|Search|search|ListFiles|list_files|ListDirectory|list_directory",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "lean-ctx hook redirect"
+          }
+        ]
+      }
+    ]
+  },
+  "enabledPlugins": {
+    "caveman@caveman": true,
+    "github@claude-plugins-official": false,
+    "railway@claude-plugins-official": false,
+    "supabase@claude-plugins-official": true,
+    "vercel@claude-plugins-official": true,
+    "andrej-karpathy-skills@karpathy-skills": false,
+    "cloudflare@claude-plugins-official": false
+  },
+  "extraKnownMarketplaces": {
+    "caveman": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/juliusbrussee/caveman.git"
+      }
+    },
+    "karpathy-skills": {
+      "source": {
+        "source": "github",
+        "repo": "forrestchang/andrej-karpathy-skills"
+      }
+    }
+  },
+  "effortLevel": "high",
+  "autoUpdatesChannel": "latest",
+  "theme": "dark",
+  "terminalProgressBarEnabled": true,
+  "mcpServers": {
+    "railway": {
+      "type": "npx",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@railway/mcp-server@latest"
+      ],
+      "disabled": true
+    }
+  }
+}
