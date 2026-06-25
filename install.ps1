@@ -11,7 +11,9 @@ if (-not (Test-Path $dest)) { New-Item -ItemType Directory -Path $dest | Out-Nul
 $files = @(
     "CLAUDE.md",
     "rules\lean-ctx.md",
-    "skills\babr\SKILL.md"
+    "skills\babr\SKILL.md",
+    "skills\ship\SKILL.md",
+    "skills\migration-status\SKILL.md"
 )
 
 foreach ($rel in $files) {

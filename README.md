@@ -12,6 +12,8 @@ My [Claude Code](https://claude.com/claude-code) global config — instructions,
 | `CLAUDE.md` | Global instructions: lean-ctx routing, Karpathy coding guidelines |
 | `rules/lean-ctx.md` | lean-ctx tool-mapping rules (imported by `CLAUDE.md`) |
 | `skills/babr/` | Before / After / Benefit / Risk summary skill |
+| `skills/ship/` | Standard git release flow (commit/push, merge-to-main, branch cleanup) |
+| `skills/migration-status/` | Report outstanding DB migrations, staging vs prod |
 | `settings.example.json` | Sanitized `settings.json` (hooks, enabled plugins, marketplaces) |
 | `install.ps1` | Copy these files into `~/.claude` (with backups) |
 
