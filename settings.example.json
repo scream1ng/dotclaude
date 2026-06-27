@@ -59,5 +59,9 @@
       ],
       "disabled": true
     }
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "powershell -NoProfile -ExecutionPolicy Bypass -File \"C:\\Users\\oakkySAMA\\.claude\\statusline.ps1\""
   }
 }
