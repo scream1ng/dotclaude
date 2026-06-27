@@ -15,9 +15,9 @@ My [Claude Code](https://claude.com/claude-code) global config — instructions,
 | `skills/babr/` | Before / After / Benefit / Risk summary skill |
 | `skills/ship/` | Standard git release flow (commit/push, merge-to-main, branch cleanup) |
 | `skills/migration-status/` | Report outstanding DB migrations, staging vs prod |
-| `tools/clip-watch.ps1` | Background watcher: clipboard image → PNG in inbox → path on clipboard (paste screenshots into the terminal) |
+| `tools/snipshot.cs` | Tray app: global hotkey (`Ctrl+Shift+S`) snips a region → saves PNG → copies its path (paste screenshots into Claude Code) |
 | `settings.example.json` | Sanitized `settings.json` (hooks, enabled plugins, marketplaces) |
-| `install.ps1` | Copy these files into `~/.claude` (with backups) + register the clip-watch startup shortcut |
+| `install.ps1` | Copy these files into `~/.claude` (with backups) |
 
 ## What's NOT here (and why)
 
@@ -36,23 +36,13 @@ Copy mode — re-run after editing repo files to re-sync. Overwritten files are 
 ### What `install.ps1` does automatically
 
 1. Copies into `~/.claude`: `CLAUDE.md`, `statusline.ps1`, `rules/lean-ctx.md`, and the `skills/*` (babr, ship, migration-status).
-2. Registers the **clip-watch** clipboard watcher to auto-start at login (a shortcut in the Startup folder → `tools/launch-clip-watch.vbs`, which runs the watcher hidden from this repo).
+2. Builds `tools/snipshot.exe` (in-box C# compiler — no SDK needed), registers it to auto-start at login (Startup-folder shortcut), and launches it. See [Clipboard image paste](#clipboard-image-paste-toolssnipshotcs).
 
 ### What you still do by hand
 
-1. **Start clip-watch now** (the shortcut only fires at the *next* login):
+1. **Merge settings** — copy the blocks you want from `settings.example.json` into `~/.claude/settings.json` (review `enabledPlugins` / `mcpServers` / `statusLine` first; it is not copied automatically because it would overwrite live state).
 
-   ```powershell
-   wscript "E:\Coding Project\dotclaude\tools\launch-clip-watch.vbs"
-   ```
-
-2. **Merge settings** — copy the blocks you want from `settings.example.json` into `~/.claude/settings.json` (review `enabledPlugins` / `mcpServers` / `statusLine` first; it is not copied automatically because it would overwrite live state).
-
-3. **Install external plugins** — see [External dependencies](#external-dependencies-install-separately) below (lean-ctx, caveman, karpathy-skills are separate repos/marketplaces).
-
-After step 1, the snip → `Ctrl+V` flow works (see [Clipboard image paste](#clipboard-image-paste-toolsclip-watchps1)). On a fresh machine the watcher then starts on its own every login.
-
-> **Paths are machine-specific.** The autostart shortcut and the relaunch command above assume this repo lives at `E:\Coding Project\dotclaude`. If it lives elsewhere, re-run `install.ps1` from the new location (it rebuilds the shortcut from `$PSScriptRoot`) — the `.vbs` itself is self-locating, so only the shortcut needs refreshing.
+2. **Install external plugins** — see [External dependencies](#external-dependencies-install-separately) below (lean-ctx, caveman, karpathy-skills are separate repos/marketplaces).
 
 ## External dependencies (install separately)
 
@@ -89,22 +79,28 @@ Notes:
 - The usage endpoint is undocumented and may change; the script fails soft if it does.
 - To disable: delete the `statusLine` block from `settings.json`.
 
-## Clipboard image paste (`tools/clip-watch.ps1`)
+## Clipboard image paste (`tools/snipshot.cs`)
 
-Windows Terminal can't accept image bytes on `Ctrl+V` — and the clipboard only ever holds one image. This watcher bridges that gap so screenshots reach Claude Code:
+Claude Code on Windows **can't** accept a pasted clipboard image — `Ctrl+V` of image bytes is ignored ([claude-code#26679](https://github.com/anthropics/claude-code/issues/26679)). Only a file **path** or a drag-dropped file works. **SnipShot** is a tiny tray app that bridges the gap with a global hotkey:
 
-1. Snip (`Win+Shift+S` / `Alt+PrtSc`) — image lands on the clipboard
-2. The watcher (polling every 800ms) saves it as a PNG to `~\clip-shots\inbox\` and **replaces the clipboard with that file's path**
+1. Press **`Ctrl+Shift+S`** — the Windows snip overlay opens; drag a region
+2. SnipShot saves the image as a PNG to `~\clip-shots\` and **copies that file's path to the clipboard** (tray balloon confirms)
 3. `Ctrl+V` in Claude Code drops the path — the harness resolves it to the image
 
-Repeat per photo, one at a time. No script to run each snip, no typing paths.
+`Win+Shift+S` is left untouched, so it still puts a plain **image** on the clipboard for pasting into a browser. Two keys, two behaviours, no clipboard conflict.
 
-- **Inbox** — `~\clip-shots\inbox\`, auto-trimmed: deletes PNGs older than 1 hour, keeps only the newest 10.
-- **Autostart** — `install.ps1` puts a shortcut in the Startup folder that launches `launch-clip-watch.vbs` (hidden, no console flash), which runs the watcher from this repo.
-- **Launch now without reboot:** `wscript "E:\Coding Project\dotclaude\tools\launch-clip-watch.vbs"`
-- **Stop:** delete `clip-watch.lnk` from the Startup folder and `Stop-Process` the hidden `powershell` running it.
+- **Build:** a single `~9 KB` `.exe` compiled from `snipshot.cs` by the in-box `csc.exe` — **no .NET SDK or runtime to install** (.NET Framework 4 ships with Windows). `install.ps1` builds and registers it automatically.
+- **Hotkey:** a real Win32 `RegisterHotKey` (not key polling) — reliable, no AltGr clash.
+- **Tray menu:** *Snip now* · *Open folder* · *Exit*. Double-click the tray icon also snips. The `~\clip-shots\` folder auto-trims to the newest 20 PNGs.
+- **Autostart:** a Startup-folder shortcut (`snipshot.lnk`) launches it every login. The shortcut hardcodes the exe path — if you move the repo, re-run `install.ps1` to rebuild it.
 
-`clip2file.ps1` is the manual one-shot version (save clipboard image once, copy its path) if you don't want the watcher running.
+Build by hand (if not using `install.ps1`):
+
+```powershell
+& "$env:WINDIR\Microsoft.NET\Framework64\v4.0.30319\csc.exe" /nologo /target:winexe `
+  /out:tools\snipshot.exe /reference:System.Drawing.dll /reference:System.Windows.Forms.dll `
+  tools\snipshot.cs
+```
 
 ## Before pushing
 

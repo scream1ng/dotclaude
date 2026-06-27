@@ -32,21 +32,26 @@ foreach ($rel in $files) {
 
 Write-Host ""
 
-# clip-watch - register the clipboard image watcher to auto-start at login.
-# Runs from the repo (tools\clip-watch.ps1); a Startup-folder shortcut launches it hidden via the VBS wrapper.
-$vbs = Join-Path $repo "tools\launch-clip-watch.vbs"
-if (Test-Path $vbs) {
-    $startup = [Environment]::GetFolderPath('Startup')
-    $lnk = Join-Path $startup "clip-watch.lnk"
-    $w = New-Object -ComObject WScript.Shell
-    $sc = $w.CreateShortcut($lnk)
-    $sc.TargetPath = "$env:WINDIR\System32\wscript.exe"
-    $sc.Arguments = "`"$vbs`""
-    $sc.WindowStyle = 7
-    $sc.Description = "Clipboard image watcher for Claude Code"
-    $sc.Save()
-    Write-Host "startup: $lnk -> $vbs"
-    Write-Host "  (launch now without reboot: wscript `"$vbs`")"
+# snipshot - build the screenshot->path tray app and register it to auto-start at login.
+$csc = "$env:WINDIR\Microsoft.NET\Framework64\v4.0.30319\csc.exe"
+$src = Join-Path $repo "tools\snipshot.cs"
+$exe = Join-Path $repo "tools\snipshot.exe"
+if ((Test-Path $csc) -and (Test-Path $src)) {
+    & $csc /nologo /target:winexe /out:$exe /reference:System.Drawing.dll /reference:System.Windows.Forms.dll $src
+    if (Test-Path $exe) {
+        Write-Host "built: tools\snipshot.exe"
+        $startup = [Environment]::GetFolderPath('Startup')
+        $lnk = Join-Path $startup "snipshot.lnk"
+        $w = New-Object -ComObject WScript.Shell
+        $sc = $w.CreateShortcut($lnk)
+        $sc.TargetPath = $exe
+        $sc.Description = "SnipShot - Ctrl+Shift+S snip to path for Claude Code"
+        $sc.Save()
+        Write-Host "startup: $lnk -> $exe"
+        if (-not (Get-Process snipshot -ErrorAction SilentlyContinue)) { Start-Process $exe; Write-Host "launched snipshot" }
+    } else {
+        Write-Host "WARNING: snipshot build failed" -ForegroundColor Yellow
+    }
 }
 
 Write-Host ""
