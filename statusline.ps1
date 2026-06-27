@@ -61,7 +61,10 @@ function Bar($pct) {
 function Left($iso) {
     $d = ([datetimeoffset]$iso) - [datetimeoffset]::Now
     if ($d.TotalSeconds -le 0) { return '0m' }
-    if ($d.TotalHours -ge 3) { return "$([math]::Floor($d.TotalHours))h" }
+    if ($d.TotalDays -ge 1) {
+        $dd=[math]::Floor($d.TotalDays); $hh=$d.Hours
+        if ($hh -gt 0) { return "${dd}d${hh}h" } else { return "${dd}d" }
+    }
     if ($d.TotalHours -ge 1) {
         $hh=[math]::Floor($d.TotalHours); $mm=$d.Minutes
         if ($mm -gt 0) { return "${hh}h${mm}m" } else { return "${hh}h" }
