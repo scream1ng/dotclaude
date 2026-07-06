@@ -1,16 +1,16 @@
 ---
-name: babr
+name: plan-it
 description: >
   Summarize a change OR the last AI analysis as a numbered Before / After / Benefit / Risk table,
   in plain non-programmer language. Output inline in conversation — no files saved.
-  Use when user says "/babr", "show babr", "before after benefit risk", or
+  Use when user says "/plan-it", "show plan-it", "before after benefit risk", or
   "summarize in table format".
   If $ARGUMENTS is provided, treat it as what to summarize.
   Otherwise, infer from recent conversation context: the last AI analysis/recommendation,
   the last diff, the last edit, or the last discussion.
 ---
 
-# BABR — Before / After / Benefit / Risk
+# Plan It — Before / After / Benefit / Risk
 
 Produce a numbered **Before / After / Benefit / Risk** table for `$ARGUMENTS`.
 If `$ARGUMENTS` is empty, infer the subject from the most recent context — and note this skill
@@ -29,6 +29,7 @@ Plain-language, numbered table. Write for a **non-programmer** — explain in ev
 - First line: bold one-sentence header — what is being summarized.
 - **Every table gets its own bold heading line directly above it** (e.g. `**Recommendations**`, `**Leave alone / deferred**`, `**Change type & production risk**`). Never print a bare table with no heading.
 - Main table: every row numbered `#1`, `#2`, … in a leading `#` column.
+- **Change type & production risk table: always included**, right after the main table — DB/prod risk is a standing concern, not opt-in.
 - Optional second table: only if the analysis flagged items deliberately left alone / deferred.
 - Last line: a one-line **Do-first order** (e.g. `#1 → #2 → #3 → rest as time allows`).
 
@@ -52,10 +53,10 @@ Print the heading `**Leave alone / deferred**` directly above it.
 |---|------|---------|-----|
 | **#8** | ... | ✅ Keep / ⚠️ Aware | ... |
 
-### Optional "change type / prod risk" table
+### Change type / prod risk table (always included)
 
-Produce this when the user asks which items are **code vs DB change**, or what **risk to the
-live/production system** each carries. Reuse the same `#` numbers as the main table.
+Always produce this table right after the main table — DB/prod risk gets flagged by default,
+not only when asked. Reuse the same `#` numbers as the main table.
 Print the heading `**Change type & production risk**` directly above it.
 
 **Change type & production risk**
@@ -77,7 +78,7 @@ Rules for this table:
 - **Area**: short plain label (e.g. "Auto safety check", "Login security gate") — not code symbols.
 - **Before**: what happens today, in everyday language.
 - **After**: what changes — everyday language.
-- **Benefit**: concrete outcome for the user or clinic (not vague "better UX").
+- **Benefit**: concrete outcome for the user or business (not vague "better UX").
 - **Risk if ignored**: one specific consequence of not doing it. Append ` → mitigation` if one exists.
 - Translate jargon: say "robot checks every change" not "CI pipeline", "small helper library" not "React Query".
 - Keep each cell tight — 1–2 lines max.

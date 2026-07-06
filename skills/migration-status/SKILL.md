@@ -20,9 +20,16 @@ Report which migrations are applied where, and what's outstanding between enviro
    - raw SQL dir → list files, compare against a tracking table
    If none found, ask which tool the project uses.
 
-2. **List per environment** — for each env (staging, prod), get applied migrations.
-   For supabase: `supabase migration list --linked` per linked project, or compare
-   local `supabase/migrations/` files against the remote applied list.
+2. **List per environment** — for each env (staging, prod), get applied migrations:
+   - Supabase: staging/prod are usually separate linked projects. Get each project-ref
+     (`supabase projects list` or ask the user), then `supabase migration list --project-ref <ref>`.
+     If only one project is linked, `supabase migration list --linked` covers it.
+   - Prisma: `npx prisma migrate status` reads `DATABASE_URL` — point it at each env
+     (env file or exported var) and run once per environment.
+   - Drizzle: compare `drizzle/meta/_journal.json` entries against the `__drizzle_migrations`
+     table in each env's database (connect via that env's connection string).
+   - Raw SQL: query the tracking table (e.g. `schema_migrations`) directly in each env's database.
+   If env credentials/connection info aren't available, ask the user rather than guessing.
 
 3. **Diff** — compute: applied-on-staging-not-prod, local-not-applied-anywhere.
 
