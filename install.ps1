@@ -12,9 +12,9 @@ $files = @(
     "CLAUDE.md",
     "statusline.ps1",
     "rules\lean-ctx.md",
-    "skills\babr\SKILL.md",
     "skills\ship\SKILL.md",
-    "skills\migration-status\SKILL.md"
+    "skills\migration-status\SKILL.md",
+    "skills\issue\SKILL.md"
 )
 
 foreach ($rel in $files) {

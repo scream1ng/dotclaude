@@ -12,9 +12,9 @@ My [Claude Code](https://claude.com/claude-code) global config — instructions,
 | `CLAUDE.md` | Global instructions: lean-ctx routing, Karpathy coding guidelines |
 | `statusline.ps1` | Custom status line: project, git branch/dirty/worktree, real 5h + 7-day usage bars |
 | `rules/lean-ctx.md` | lean-ctx tool-mapping rules (imported by `CLAUDE.md`) |
-| `skills/babr/` | Before / After / Benefit / Risk summary skill |
 | `skills/ship/` | Standard git release flow (commit/push, merge-to-main, branch cleanup) |
 | `skills/migration-status/` | Report outstanding DB migrations, staging vs prod |
+| `skills/issue/` | Fetch open GitHub issues, investigate codebase, report difficulty + DB-touch table |
 | `tools/snipshot.cs` | Tray app: global hotkey (`Ctrl+Shift+S`) snips a region → saves PNG → copies its path (paste screenshots into Claude Code) |
 | `settings.example.json` | Sanitized `settings.json` (hooks, enabled plugins, marketplaces) |
 | `install.ps1` | Copy these files into `~/.claude` (with backups) |
@@ -35,7 +35,7 @@ Copy mode — re-run after editing repo files to re-sync. Overwritten files are 
 
 ### What `install.ps1` does automatically
 
-1. Copies into `~/.claude`: `CLAUDE.md`, `statusline.ps1`, `rules/lean-ctx.md`, and the `skills/*` (babr, ship, migration-status).
+1. Copies into `~/.claude`: `CLAUDE.md`, `statusline.ps1`, `rules/lean-ctx.md`, and the `skills/*` (ship, migration-status, issue).
 2. Builds `tools/snipshot.exe` (in-box C# compiler — no SDK needed), registers it to auto-start at login (Startup-folder shortcut), and launches it. See [Clipboard image paste](#clipboard-image-paste-toolssnipshotcs).
 
 ### What you still do by hand
