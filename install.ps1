@@ -17,7 +17,10 @@ $files = @(
     "skills\issue\SKILL.md",
     "skills\handoff\SKILL.md",
     "skills\grilling\SKILL.md",
-    "skills\grill-me\SKILL.md"
+    "skills\grill-me\SKILL.md",
+    "skills\implement\SKILL.md",
+    "skills\prototype\SKILL.md",
+    "skills\plain-table\SKILL.md"
 )
 
 foreach ($rel in $files) {

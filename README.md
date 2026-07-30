@@ -18,6 +18,9 @@ My [Claude Code](https://claude.com/claude-code) global config — instructions,
 | `skills/handoff/` | Compact the current conversation into a handoff doc for a fresh agent to continue |
 | `skills/grilling/` | Relentless one-at-a-time interview to stress-test a plan/decision before acting |
 | `skills/grill-me/` | Alias skill — runs `/grilling` |
+| `skills/implement/` | Pick up an HTML prototype from `plan/` and build the real feature end-to-end |
+| `skills/prototype/` | Turn a plan/feature discussion into a picture-driven HTML mockup, saved under `plan/` |
+| `skills/plain-table/` | Turn a technical findings list into a plain-language before/after/benefit table |
 | `tools/snipshot.cs` | Tray app: global hotkey (`Ctrl+Shift+S`) snips a region → saves PNG → copies its path (paste screenshots into Claude Code) |
 | `settings.example.json` | Sanitized `settings.json` (hooks, enabled plugins, marketplaces) |
 | `install.ps1` | Copy these files into `~/.claude` (with backups) |
@@ -38,7 +41,7 @@ Copy mode — re-run after editing repo files to re-sync. Overwritten files are 
 
 ### What `install.ps1` does automatically
 
-1. Copies into `~/.claude`: `CLAUDE.md`, `statusline.ps1`, `rules/lean-ctx.md`, and the `skills/*` (ship, migration-status, issue, handoff, grilling, grill-me).
+1. Copies into `~/.claude`: `CLAUDE.md`, `statusline.ps1`, `rules/lean-ctx.md`, and the `skills/*` (ship, migration-status, issue, handoff, grilling, grill-me, implement, prototype, plain-table).
 2. Builds `tools/snipshot.exe` (in-box C# compiler — no SDK needed), registers it to auto-start at login (Startup-folder shortcut), and launches it. See [Clipboard image paste](#clipboard-image-paste-toolssnipshotcs).
 
 ### What you still do by hand
