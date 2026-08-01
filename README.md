@@ -21,9 +21,47 @@ My [Claude Code](https://claude.com/claude-code) global config — instructions,
 | `skills/implement/` | Pick up an HTML prototype from `plan/` and build the real feature end-to-end |
 | `skills/prototype/` | Turn a plan/feature discussion into a picture-driven HTML mockup, saved under `plan/` |
 | `skills/plain-table/` | Turn a technical findings list into a plain-language before/after/benefit table |
+| `skills/qa/` | Drive a real browser through the changed flow, find bugs, fix them, write a regression test per fix |
+| `skills/design-system/` | Bootstrap/refresh `DESIGN.md` — tokens, spacing, components — one-time source of truth for design consistency |
+| `skills/design-review/` | Audit a screen (mockup or live URL) against `DESIGN.md`, flag inconsistencies and AI-slop patterns, findings only |
 | `tools/snipshot.cs` | Tray app: global hotkey (`Ctrl+Shift+S`) snips a region → saves PNG → copies its path (paste screenshots into Claude Code) |
 | `settings.example.json` | Sanitized `settings.json` (hooks, enabled plugins, marketplaces) |
 | `install.ps1` | Copy these files into `~/.claude` (with backups) |
+
+## Workflow
+
+The skills chain into one sprint flow — each stage's output feeds the next:
+
+```
+grilling → prototype → implement → design-review → /code-review → qa → ship
+```
+
+- **grilling** — stress-test the idea before writing code (premises, edge cases, scope)
+- **prototype** — low-text HTML mockup of the agreed shape, saved to `plan/`
+- **implement** — build the real feature from the mockup, hunt bugs, run tests
+- **design-review** — audit the real, running screen against `DESIGN.md` — catches states (hover/loading/error/responsive) a static mockup can't show
+- **/code-review** — built-in staff-eng pass over the diff, catches what CI won't
+- **qa** — real browser click-through of the changed flow, fixes bugs found, writes a regression test per fix
+- **ship** — commit, push, merge to main, cleanup
+
+`design-system` isn't in the chain — it's a one-time (or occasional refresh) step that
+writes `DESIGN.md`, which `prototype` and `design-review` then read from. Run it once
+per project before the first `prototype`, or after a deliberate visual overhaul.
+
+Small example:
+
+```
+You: I want a "mark all read" button on the notifications list.
+You: grilling        → clarifies: soft-delete or read-flag? scoped to visible page or all?
+You: /prototype       → plan/mark-all-read.html
+You: /implement       → builds it, adds disabled-state while pending, runs test suite
+You: /design-review localhost:3000/notifications
+                      → button color drifts from DESIGN.md token, you fix
+You: /code-review     → flags missing auth check on the bulk endpoint, you fix
+You: /qa localhost:3000/notifications
+                      → clicks it, finds double-click fires two requests, fixes + adds test
+You: /ship            → feat/mark-all-read → main, branch cleaned up
+```
 
 ## What's NOT here (and why)
 
@@ -41,7 +79,7 @@ Copy mode — re-run after editing repo files to re-sync. Overwritten files are 
 
 ### What `install.ps1` does automatically
 
-1. Copies into `~/.claude`: `CLAUDE.md`, `statusline.ps1`, `rules/lean-ctx.md`, and the `skills/*` (ship, migration-status, issue, handoff, grilling, grill-me, implement, prototype, plain-table).
+1. Copies into `~/.claude`: `CLAUDE.md`, `statusline.ps1`, `rules/lean-ctx.md`, and the `skills/*` (ship, migration-status, issue, handoff, grilling, grill-me, implement, prototype, plain-table, qa, design-system, design-review).
 2. Builds `tools/snipshot.exe` (in-box C# compiler — no SDK needed), registers it to auto-start at login (Startup-folder shortcut), and launches it. See [Clipboard image paste](#clipboard-image-paste-toolssnipshotcs).
 
 ### What you still do by hand
