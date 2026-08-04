@@ -21,6 +21,7 @@ My [Claude Code](https://claude.com/claude-code) global config — instructions,
 | `skills/implement/` | Pick up an HTML prototype from `plan/` and build the real feature end-to-end |
 | `skills/prototype/` | Turn a plan/feature discussion into a picture-driven HTML mockup, saved under `plan/` |
 | `skills/plain-table/` | Turn a technical findings list into a plain-language before/after/benefit table |
+| `skills/plain-text/` | Turn one technical explanation/plan/diff summary into short plain-language prose |
 | `skills/qa/` | Drive a real browser through the changed flow, find bugs, fix them, write a regression test per fix |
 | `skills/design-system/` | Bootstrap/refresh `DESIGN.md` — tokens, spacing, components — one-time source of truth for design consistency |
 | `skills/design-review/` | Audit a screen (mockup or live URL) against `DESIGN.md`, flag inconsistencies and AI-slop patterns, findings only |
@@ -79,7 +80,7 @@ Copy mode — re-run after editing repo files to re-sync. Overwritten files are 
 
 ### What `install.ps1` does automatically
 
-1. Copies into `~/.claude`: `CLAUDE.md`, `statusline.ps1`, `rules/lean-ctx.md`, and the `skills/*` (ship, migration-status, issue, handoff, grilling, grill-me, implement, prototype, plain-table, qa, design-system, design-review).
+1. Copies into `~/.claude`: `CLAUDE.md`, `statusline.ps1`, `rules/lean-ctx.md`, and the `skills/*` (ship, migration-status, issue, handoff, grilling, grill-me, implement, prototype, plain-table, plain-text, qa, design-system, design-review).
 2. Builds `tools/snipshot.exe` (in-box C# compiler — no SDK needed), registers it to auto-start at login (Startup-folder shortcut), and launches it. See [Clipboard image paste](#clipboard-image-paste-toolssnipshotcs).
 
 ### What you still do by hand
