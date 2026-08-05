@@ -18,8 +18,9 @@ My [Claude Code](https://claude.com/claude-code) global config — instructions,
 | `skills/handoff/` | Compact the current conversation into a handoff doc for a fresh agent to continue |
 | `skills/grilling/` | Relentless one-at-a-time interview to stress-test a plan/decision before acting |
 | `skills/grill-me/` | Alias skill — runs `/grilling` |
-| `skills/implement/` | Pick up an HTML prototype from `plan/` and build the real feature end-to-end |
+| `skills/implement/` | Pick up an HTML prototype or plan doc from `plan/` and build the real feature end-to-end |
 | `skills/prototype/` | Turn a plan/feature discussion into a picture-driven HTML mockup, saved under `plan/` |
+| `skills/to-plan/` | Persist a discussion or prototype's decisions to `plan/<feature>.md` so `implement` can pick it up in a different session |
 | `skills/plain-table/` | Turn a technical findings list into a plain-language before/after/benefit table |
 | `skills/plain-text/` | Turn one technical explanation/plan/diff summary into short plain-language prose |
 | `skills/qa/` | Drive a real browser through the changed flow, find bugs, fix them, write a regression test per fix |
@@ -34,12 +35,14 @@ My [Claude Code](https://claude.com/claude-code) global config — instructions,
 The skills chain into one sprint flow — each stage's output feeds the next:
 
 ```
-grilling → prototype → implement → design-review → /code-review → qa → ship
+grilling → prototype → [to-plan] → implement → design-review → /code-review → qa → ship
 ```
 
 - **grilling** — stress-test the idea before writing code (premises, edge cases, scope)
 - **prototype** — low-text HTML mockup of the agreed shape, saved to `plan/`
-- **implement** — build the real feature from the mockup, hunt bugs, run tests
+- **to-plan** (optional) — persist the discussion or prototype's decisions to
+  `plan/<feature>.md`, if `implement` will run in a different session/worktree
+- **implement** — build the real feature from the mockup or plan doc, hunt bugs, run tests
 - **design-review** — audit the real, running screen against `DESIGN.md` — catches states (hover/loading/error/responsive) a static mockup can't show
 - **/code-review** — built-in staff-eng pass over the diff, catches what CI won't
 - **qa** — real browser click-through of the changed flow, fixes bugs found, writes a regression test per fix
@@ -80,7 +83,7 @@ Copy mode — re-run after editing repo files to re-sync. Overwritten files are 
 
 ### What `install.ps1` does automatically
 
-1. Copies into `~/.claude`: `CLAUDE.md`, `statusline.ps1`, `rules/lean-ctx.md`, and the `skills/*` (ship, migration-status, issue, handoff, grilling, grill-me, implement, prototype, plain-table, plain-text, qa, design-system, design-review).
+1. Copies into `~/.claude`: `CLAUDE.md`, `statusline.ps1`, `rules/lean-ctx.md`, and the `skills/*` (ship, migration-status, issue, handoff, grilling, grill-me, implement, prototype, to-plan, plain-table, plain-text, qa, design-system, design-review).
 2. Builds `tools/snipshot.exe` (in-box C# compiler — no SDK needed), registers it to auto-start at login (Startup-folder shortcut), and launches it. See [Clipboard image paste](#clipboard-image-paste-toolssnipshotcs).
 
 ### What you still do by hand
