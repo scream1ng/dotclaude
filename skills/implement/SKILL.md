@@ -1,12 +1,12 @@
 ---
 name: implement
 description: >
-  Pick up an HTML prototype from plan/ and build the real feature end-to-end: build it,
-  apply UI/UX judgment beyond the literal mockup, hunt for bugs in what was built, then
-  run an end-to-end test before reporting done. Use when user says "/implement", "build
-  this prototype", "implement the mockup", or points at a plan/*.html file and says
-  build it. $ARGUMENTS may name the prototype file; if omitted, use the most recently
-  modified file in plan/.
+  Pick up an HTML prototype or plan.md from plan/ and build the real feature
+  end-to-end: build it, apply UI/UX judgment beyond the literal mockup, hunt for bugs
+  in what was built, then run an end-to-end test before reporting done. Use when user
+  says "/implement", "build this prototype", "implement the mockup", or points at a
+  plan/*.html or plan/*.md file and says build it. $ARGUMENTS may name the file; if
+  omitted, use the most recently modified file in plan/.
 ---
 
 # implement — prototype → real, working, verified feature
@@ -19,14 +19,16 @@ show real behavior, hunts for bugs in the result, and proves it works end-to-end
 
 ## Process
 
-1. **Locate the prototype.** Use `$ARGUMENTS` if given. Otherwise: if `plan/` has
-   exactly one `.html` file, use it; if more than one, list them and ask which — don't
-   guess by mtime. Read it fully — treat every screen/frame/state it shows as a
-   requirement.
+1. **Locate the plan.** Use `$ARGUMENTS` if given. Otherwise: if `plan/` has exactly
+   one `.html` file, use it; if more than one, list them and ask which — don't guess
+   by mtime. Read it fully — treat every screen/frame/state it shows as a requirement.
+   If `plan/` has no `.html` but has a `.md` (made by `to-plan` straight from a
+   discussion, no prototype step), use that instead — same one-file-or-ask rule.
 2. **Re-derive the plan from the mockup itself** — read its embedded HTML comment block
    (screens, fields, nav placement, open questions) as the source of truth for shape.
-   If it's missing that block, fall back to this conversation's history if the prototype
-   was made in this same session; otherwise ask.
+   If it's missing that block, fall back to a sibling `plan/<feature>.md` (made by
+   `to-plan`) if one exists; otherwise fall back to this conversation's history if the
+   prototype was made in this same session; otherwise ask.
 3. **Don't re-present what the prototype already settled.** If step 2 found a complete
    embedded spec, the plan is already agreed — proceed straight to building. Only surface
    something before coding if it's genuinely new (e.g. exact DB column names the mockup
