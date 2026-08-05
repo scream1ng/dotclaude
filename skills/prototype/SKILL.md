@@ -45,6 +45,13 @@ the user can look at shapes/layout/flow before any implementation happens.
      etc.) that flips the minority frames back. Check for this class before assuming a
      frame "isn't rendering" — a blank mobile or desktop frame is usually this, not a
      missing element.
+   - **The real stylesheet likely locks `html`/`body` height and overflow for the
+     app's own fixed-shell layout** (single-screen SPA behavior) — this breaks
+     page scroll on a mockup page stacking multiple frames. After the `<link>`,
+     add an override: `html, body { height: auto !important; overflow: auto !important;
+     position: static !important; }`. Do this by default whenever linking a real
+     app stylesheet into a multi-frame mockup, don't wait for the user to report
+     it's unscrollable.
    - If the plan has a flow/architecture shape worth showing (data merge, nav path),
      draw it as a simple boxes-and-arrows diagram (inline SVG or CSS), not a paragraph.
    - Trivial interactivity (tab/frame switching via CSS `:target` or a few lines of JS)
