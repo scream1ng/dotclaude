@@ -1,0 +1,101 @@
+/* scenario-delta — drop into the page's <style> block.
+   Tokens are sd- prefixed so they never collide with the host page's palette.
+
+   COLOUR MODEL. The encoded variable is ordinal — how much did this component
+   move — so it is ONE hue at four rising intensities (l1 quietest → l4 loudest),
+   never a green/amber/red status palette. Status hues imply good/bad, which is
+   meaningless for "a row was inserted", and green-vs-amber is the classic
+   colour-blind collision. Every level is also carried by a glyph (+ ~ = ·) and a
+   word, so the diagrams survive greyscale printing and monochrome vision.
+   Swap --sd-l4 for your own brand hue and derive the rest from it. */
+
+:root{
+  --sd-surface:#FFFFFF; --sd-surface-2:#F0F3F2;
+  --sd-ink:#12201D; --sd-ink-2:#4A5D59; --sd-ink-3:#8A9995;
+  --sd-rule:#DDE4E2; --sd-rule-2:#C3CECB;
+  --sd-acc:#0B5D57;
+
+  --sd-l4:#0B5D57; --sd-l4-bg:#CBE4E0;   /* loudest — created */
+  --sd-l3:#3F8B84; --sd-l3-bg:#E8F2F0;   /* changed */
+  --sd-l2:#AEBCB8;                        /* present, untouched */
+  --sd-l1:#D2DBD9;                        /* nothing at all */
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --sd-surface:#141C1A; --sd-surface-2:#1B2523;
+    --sd-ink:#E2E9E7; --sd-ink-2:#9DACA8; --sd-ink-3:#6E7D79;
+    --sd-rule:#243230; --sd-rule-2:#31423F;
+    --sd-acc:#54C3B4;
+    --sd-l4:#5FCDBD; --sd-l4-bg:#124540;
+    --sd-l3:#2F8177; --sd-l3-bg:#122A28;
+    --sd-l2:#3A4B48;
+    --sd-l1:#26302E;
+  }
+}
+:root[data-theme="dark"]{
+  --sd-surface:#141C1A; --sd-surface-2:#1B2523;
+  --sd-ink:#E2E9E7; --sd-ink-2:#9DACA8; --sd-ink-3:#6E7D79;
+  --sd-rule:#243230; --sd-rule-2:#31423F;
+  --sd-acc:#54C3B4;
+  --sd-l4:#5FCDBD; --sd-l4-bg:#124540;
+  --sd-l3:#2F8177; --sd-l3-bg:#122A28;
+  --sd-l2:#3A4B48;
+  --sd-l1:#26302E;
+}
+
+.sd-legend{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:24px}
+.sd-legend-lbl{font-size:13.5px; color:var(--sd-ink-2); margin-right:4px}
+
+.sd-op{
+  display:inline-flex; align-items:center; gap:6px;
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:10.5px; font-weight:600; letter-spacing:.07em; text-transform:uppercase;
+  padding:3px 9px; border:1px solid; border-radius:2px; white-space:nowrap;
+}
+.sd-op-insert{color:var(--sd-l4); background:var(--sd-l4-bg); border-color:var(--sd-l4); border-width:2px}
+.sd-op-update{color:var(--sd-l3); background:var(--sd-l3-bg); border-color:var(--sd-l3)}
+.sd-op-locked{color:var(--sd-ink-2); background:transparent; border-color:var(--sd-l2)}
+.sd-op-none{color:var(--sd-ink-3); background:transparent; border-color:var(--sd-l1); border-style:dashed}
+
+.sd-fig{
+  margin:0 0 20px; padding:20px 20px 16px;
+  background:var(--sd-surface); border:1px solid var(--sd-rule);
+}
+.sd-fig-head{
+  display:flex; align-items:baseline; gap:12px; margin-bottom:16px;
+  padding-bottom:12px; border-bottom:1px solid var(--sd-rule);
+}
+.sd-fig-no{
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:11px; font-weight:600;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--sd-acc); white-space:nowrap;
+}
+.sd-fig h3{margin:0; font-size:17px}
+/* currentColor drives every plain stroke and arrowhead, so set it once here. */
+.sd-fig svg{display:block; width:100%; max-width:100%; height:auto; color:var(--sd-ink-3)}
+.sd-fig figcaption{
+  margin-top:18px; padding-top:14px; border-top:1px solid var(--sd-rule);
+  font-size:13px; color:var(--sd-ink-2); line-height:1.55;
+}
+.sd-fig figcaption b{color:var(--sd-ink); font-weight:600}
+.sd-fig figcaption code{font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:12px}
+
+.sd-recon{
+  display:flex; flex-wrap:wrap; gap:1px; margin:18px 0 0;
+  background:var(--sd-rule); border:1px solid var(--sd-rule-2);
+}
+.sd-recon > div{
+  flex:1 1 130px; background:var(--sd-surface); padding:10px 13px;
+  display:flex; flex-direction:column; gap:3px;
+}
+.sd-recon dt{
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:9.5px;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--sd-ink-3);
+}
+.sd-recon dd{
+  margin:0; font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:16px; font-weight:600; font-variant-numeric:tabular-nums; color:var(--sd-ink);
+}
+/* Money out is not "bad" and money in is not "good" — the sign already says
+   which way it went, so tone only marks the line that proves the case ties. */
+.sd-recon dd.good{color:var(--sd-l4)}
+.sd-recon dd.bad{color:var(--sd-ink-2)}
