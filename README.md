@@ -12,6 +12,14 @@ My [Claude Code](https://claude.com/claude-code) global config — instructions,
 | `CLAUDE.md` | Global instructions: lean-ctx routing, Karpathy coding guidelines |
 | `statusline.ps1` | Custom status line: project, git branch/dirty/worktree, real 5h + 7-day usage bars |
 | `rules/lean-ctx.md` | lean-ctx tool-mapping rules (imported by `CLAUDE.md`) |
+| `tools/snipshot.cs` | Tray app: global hotkey (`Ctrl+Shift+S`) snips a region → saves PNG → copies its path (paste screenshots into Claude Code) |
+| `settings.example.json` | Sanitized `settings.json` (hooks, enabled plugins, marketplaces) |
+| `install.ps1` | Copy these files into `~/.claude` (with backups) |
+
+### Skills
+
+| Path | What |
+|------|------|
 | `skills/ship/` | Standard git release flow (commit/push, merge-to-main, branch cleanup) |
 | `skills/migration-status/` | Report outstanding DB migrations, staging vs prod |
 | `skills/issue/` | Fetch open GitHub issues, investigate codebase, report difficulty + DB-touch table |
@@ -26,9 +34,8 @@ My [Claude Code](https://claude.com/claude-code) global config — instructions,
 | `skills/qa/` | Drive a real browser through the changed flow, find bugs, fix them, write a regression test per fix |
 | `skills/design-system/` | Bootstrap/refresh `DESIGN.md` — tokens, spacing, components — one-time source of truth for design consistency |
 | `skills/design-review/` | Audit a screen (mockup or live URL) against `DESIGN.md`, flag inconsistencies and AI-slop patterns, findings only |
-| `tools/snipshot.cs` | Tray app: global hotkey (`Ctrl+Shift+S`) snips a region → saves PNG → copies its path (paste screenshots into Claude Code) |
-| `settings.example.json` | Sanitized `settings.json` (hooks, enabled plugins, marketplaces) |
-| `install.ps1` | Copy these files into `~/.claude` (with backups) |
+| `skills/diagnose/` | Discipline loop for hard bugs and performance regressions — feedback loop, minimize, hypothesize, instrument, fix, cleanup |
+| `skills/research/` | Investigate a question against high-trust primary sources, capture findings as a Markdown file in the repo |
 
 ## Workflow
 
@@ -51,6 +58,10 @@ grilling → prototype → [to-plan] → implement → design-review → /code-r
 `design-system` isn't in the chain — it's a one-time (or occasional refresh) step that
 writes `DESIGN.md`, which `prototype` and `design-review` then read from. Run it once
 per project before the first `prototype`, or after a deliberate visual overhaul.
+
+`diagnose` and `research` also aren't in the chain — they're standalone, invoked
+whenever a hard bug/perf regression or a research question comes up, not tied to a
+sprint stage.
 
 Small example:
 
@@ -83,7 +94,7 @@ Copy mode — re-run after editing repo files to re-sync. Overwritten files are 
 
 ### What `install.ps1` does automatically
 
-1. Copies into `~/.claude`: `CLAUDE.md`, `statusline.ps1`, `rules/lean-ctx.md`, and the `skills/*` (ship, migration-status, issue, handoff, grilling, grill-me, implement, prototype, to-plan, plain-table, plain-text, qa, design-system, design-review).
+1. Copies into `~/.claude`: `CLAUDE.md`, `statusline.ps1`, `rules/lean-ctx.md`, and the `skills/*` (ship, migration-status, issue, handoff, grilling, grill-me, implement, prototype, to-plan, plain-table, plain-text, qa, design-system, design-review, diagnose, research).
 2. Builds `tools/snipshot.exe` (in-box C# compiler — no SDK needed), registers it to auto-start at login (Startup-folder shortcut), and launches it. See [Clipboard image paste](#clipboard-image-paste-toolssnipshotcs).
 
 ### What you still do by hand
