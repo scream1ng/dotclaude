@@ -36,6 +36,7 @@ My [Claude Code](https://claude.com/claude-code) global config — instructions,
 | `skills/design-review/` | Audit a screen (mockup or live URL) against `DESIGN.md`, flag inconsistencies and AI-slop patterns, findings only |
 | `skills/diagnose/` | Discipline loop for hard bugs and performance regressions — feedback loop, minimize, hypothesize, instrument, fix, cleanup |
 | `skills/research/` | Investigate a question against high-trust primary sources, capture findings as a Markdown file in the repo |
+| `skills/find-skills/` | Discover/install external skills from the open ecosystem via `npx skills` ([vercel-labs/skills](https://github.com/vercel-labs/skills)) when a task needs a capability that isn't already here |
 
 ## Workflow
 
@@ -59,9 +60,9 @@ grilling → prototype → [to-plan] → implement → design-review → /code-r
 writes `DESIGN.md`, which `prototype` and `design-review` then read from. Run it once
 per project before the first `prototype`, or after a deliberate visual overhaul.
 
-`diagnose` and `research` also aren't in the chain — they're standalone, invoked
-whenever a hard bug/perf regression or a research question comes up, not tied to a
-sprint stage.
+`diagnose`, `research`, and `find-skills` also aren't in the chain — they're standalone,
+invoked whenever a hard bug/perf regression, a research question, or a missing
+capability comes up, not tied to a sprint stage.
 
 Small example:
 
@@ -94,7 +95,7 @@ Copy mode — re-run after editing repo files to re-sync. Overwritten files are 
 
 ### What `install.ps1` does automatically
 
-1. Copies into `~/.claude`: `CLAUDE.md`, `statusline.ps1`, `rules/lean-ctx.md`, and the `skills/*` (ship, migration-status, issue, handoff, grilling, grill-me, implement, prototype, to-plan, plain-table, plain-text, qa, design-system, design-review, diagnose, research).
+1. Copies into `~/.claude`: `CLAUDE.md`, `statusline.ps1`, `rules/lean-ctx.md`, and the `skills/*` (ship, migration-status, issue, handoff, grilling, grill-me, implement, prototype, to-plan, plain-table, plain-text, qa, design-system, design-review, diagnose, research, find-skills).
 2. Builds `tools/snipshot.exe` (in-box C# compiler — no SDK needed), registers it to auto-start at login (Startup-folder shortcut), and launches it. See [Clipboard image paste](#clipboard-image-paste-toolssnipshotcs).
 
 ### What you still do by hand
