@@ -102,14 +102,13 @@ Copy mode — re-run after editing repo files to re-sync. Overwritten files are 
 
 1. **Merge settings** — copy the blocks you want from `settings.example.json` into `~/.claude/settings.json` (review `enabledPlugins` / `mcpServers` / `statusLine` first; it is not copied automatically because it would overwrite live state).
 
-2. **Install external plugins** — see [External dependencies](#external-dependencies-install-separately) below (lean-ctx, caveman, karpathy-skills are separate repos/marketplaces).
+2. **Install external plugins** — see [External dependencies](#external-dependencies-install-separately) below (lean-ctx, karpathy-skills are separate repos/marketplaces).
 
 ## External dependencies (install separately)
 
 These are referenced by my config but live in their own projects:
 
 - **lean-ctx** — MCP context runtime. Install via its skill (`/lean-ctx`) or its repo.
-- **caveman** — compression/persona plugin. Marketplace: `https://github.com/juliusbrussee/caveman.git`
 - **karpathy-skills** — `forrestchang/andrej-karpathy-skills`
 
 Add a marketplace in Claude Code:
@@ -125,7 +124,7 @@ Then enable the plugins listed under `enabledPlugins` in `settings.example.json`
 `statusline.ps1` renders, left to right:
 
 ```
-Coding Project | main* ↑2 | [worktree] | 5h ▓▓▓▓░░░░░░ 43% 2h14m · 7d ▓▓▓▓▓░░░░░ 52% 11h | [CAVEMAN]
+Coding Project | main* ↑2 | [worktree] | 5h ▓▓▓▓░░░░░░ 43% 2h14m · 7d ▓▓▓▓▓░░░░░ 52% 11h
 ```
 
 - **project** — current folder name (cyan)

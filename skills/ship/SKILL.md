@@ -65,8 +65,3 @@ branch (if needed) → commit → push → merge to main → push main → clean
   through `<main_path>` per step 8. This matters most when several agents each work in their
   own worktree at the same time — the main checkout is the single integration point.
 - Push-to-main rejections get one retry cycle (fetch + merge + push), not endless retries.
-
-## Caveman mode
-
-If caveman active, report results terse: `<branch> → main, <hash>, N files, branch deleted`.
-Commit message body stays normal prose (commits are never caveman).

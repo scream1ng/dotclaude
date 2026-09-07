@@ -73,7 +73,7 @@ function Left($iso) {
 }
 
 # --- colors ---
-$w="$e[97m"; $cProj="$e[36m"; $cBranch="$e[33m"; $cDirty="$e[31m"; $cTrack="$e[32m"; $cWork="$e[34m"; $cReset=$w; $cCave="$e[35m"
+$w="$e[97m"; $cProj="$e[36m"; $cBranch="$e[33m"; $cDirty="$e[31m"; $cTrack="$e[32m"; $cWork="$e[34m"; $cReset=$w
 
 $parts = @("$cProj$project$r0")
 if ($branch) {
@@ -91,5 +91,4 @@ if ($u) {
     if ($seg) { $parts += ($seg -join " $e[90m$([char]0x00B7)$r0 ") }
 }
 
-$parts += "${cCave}[CAVEMAN]$r0"
 $parts -join " $e[90m|$r0 "

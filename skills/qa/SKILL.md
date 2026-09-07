@@ -50,7 +50,3 @@ read the code. Find what breaks, fix it, prove the fix with a regression test.
   surgical-changes rule.
 - Each fix is its own commit. Don't bundle multiple bug fixes into one commit.
 - This is QA, not `/ship` — don't push, merge, or open a PR. Stop after reporting.
-
-## Caveman mode
-
-If caveman active, report terse: `<flow> tested. N bugs fixed (+N regression tests). M found, not fixed: <why>.`

@@ -45,7 +45,3 @@ Catch design problems before they're built, not after. Reads, doesn't edit.
   `implement`'s job (or a follow-up prompt), not this skill silently expanding scope.
 - No `DESIGN.md` yet and this is a recurring gap → suggest running `/design-system`
   once, don't re-derive tokens from scratch every review.
-
-## Caveman mode
-
-If caveman active, report terse: one line per finding, `<element>: <problem> → <fix>`.
