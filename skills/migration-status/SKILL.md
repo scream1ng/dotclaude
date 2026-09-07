@@ -52,7 +52,3 @@ End with a one-line summary: `N outstanding to prod, M outstanding to staging.`
 - If applying is wanted, state the exact command and let the user run it.
 - Flag any migration that touches schema on prod as ⚠️ — pair with babr if risk detail wanted.
 - Show real CLI output; don't infer counts you didn't verify.
-
-## Caveman mode
-
-If caveman active, compress the summary line: `3 outstanding→prod, 0→staging`. Table stays intact.
