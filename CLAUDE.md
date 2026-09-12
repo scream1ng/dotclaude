@@ -71,3 +71,6 @@ For large or risky tasks, show plan and wait for approval before implementing.
 - Run existing tests after making changes. Report results.
 - If changes break a test, stop and flag it — don't paper over it.
 - Don't delete or skip failing tests to make things pass.
+
+## Slash commands (type to run; not auto-invoked)
+design-review design-system diagnose find-skills grill-me grilling handoff implement issue migration-status plain-table plain-text prototype qa research ship to-plan

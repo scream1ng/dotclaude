@@ -5,6 +5,7 @@ description: >
   as a Markdown file in the repo. Use when user says "/research", wants a topic
   researched, docs or API facts gathered, or reading legwork delegated to a
   background agent.
+disable-model-invocation: true
 ---
 
 # research — primary-source investigation

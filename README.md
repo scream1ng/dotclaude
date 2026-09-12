@@ -12,11 +12,18 @@ My [Claude Code](https://claude.com/claude-code) global config — instructions,
 | `CLAUDE.md` | Global instructions: lean-ctx routing, Karpathy coding guidelines |
 | `statusline.ps1` | Custom status line: project, git branch/dirty/worktree, real 5h + 7-day usage bars |
 | `rules/lean-ctx.md` | lean-ctx tool-mapping rules (imported by `CLAUDE.md`) |
+| `PORTABLE.md` | Karpathy guidelines condensed for other agents (claude.ai custom instructions, Codex `AGENTS.md`) — not installed to `~/.claude` |
 | `tools/snipshot.cs` | Tray app: global hotkey (`Ctrl+Shift+S`) snips a region → saves PNG → copies its path (paste screenshots into Claude Code) |
 | `settings.example.json` | Sanitized `settings.json` (hooks, enabled plugins, marketplaces) |
 | `install.ps1` | Copy these files into `~/.claude` (with backups) |
 
 ### Skills
+
+Every skill except `diagnose` sets `disable-model-invocation: true` — it stays out of the
+model's skill roster (saving the per-session description budget) and runs only when you type
+its slash command. `CLAUDE.md` carries a bare name list so the model can still suggest one.
+`diagnose` stays auto-invocable because "this is broken" is how a bug gets described without
+thinking of tooling.
 
 | Path | What |
 |------|------|

@@ -6,6 +6,7 @@ description: >
   "push to github", or describes the end-of-work git dance. $ARGUMENTS optionally
   holds the commit message; if empty, generate one from the diff. Every trigger
   runs the full flow — there is no partial "commit only" mode.
+disable-model-invocation: true
 ---
 
 # ship — git release flow

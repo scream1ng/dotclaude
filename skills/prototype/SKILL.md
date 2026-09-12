@@ -4,6 +4,7 @@ description: >
   Turn a plan/feature discussion into a picture-driven HTML mockup, saved under plan/.
   Use when user says "/prototype", "make a prototype", "mock this up", "show me what
   it'll look like" after a plan has been discussed. Low-text, visual-first output.
+disable-model-invocation: true
 ---
 
 # prototype — plan → visual HTML mockup
