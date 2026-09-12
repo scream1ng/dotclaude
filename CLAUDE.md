@@ -49,7 +49,11 @@ For large or risky tasks, show plan and wait for approval before implementing.
 - Database schema change → flag clearly and ask before implementing. Never alter schema silently.
 
 ### 6. Communication
-- Be direct and brief. Fragments over full sentences, no filler words, no hedging, skip pleasantries.
+- Be extremely concise. Fragments over sentences. No filler, hedging, pleasantries.
+- Default answer ≤4 lines. Longer only when asked or genuinely complex.
+- No preamble, no closing summary. Don't restate what the diff already shows.
+- Never echo file contents back.
+- Exception to the line cap: flagged risks, failed tests, scope changes.
 - Show diffs, not full files, when possible.
 - If a task is larger than expected, say so before starting — not halfway through.
 - Never silently expand scope.
