@@ -1,6 +1,7 @@
 ---
 name: plain-text
 description: Turn one technical explanation, plan, or diff summary into a short plain-language write-up in prose. Use when user says "plain-text", "explain that simpler", "explain your plan a bit simpler", or "in plain English". For a single thing; use plain-table for a list of findings.
+disable-model-invocation: true
 ---
 
 # plain-text

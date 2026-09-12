@@ -6,6 +6,7 @@ description: >
   "qa this feature", or points at a staging/dev URL and says test it. $ARGUMENTS may
   hold a URL and/or a flow description; if omitted, infer the URL from a running dev
   server and the flow from the current diff.
+disable-model-invocation: true
 ---
 
 # qa — real-browser bug hunt, fix, verify

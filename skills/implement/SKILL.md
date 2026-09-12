@@ -7,6 +7,7 @@ description: >
   says "/implement", "build this prototype", "implement the mockup", or points at a
   plan/*.html or plan/*.md file and says build it. $ARGUMENTS may name the file; if
   omitted, use the most recently modified file in plan/.
+disable-model-invocation: true
 ---
 
 # implement — prototype → real, working, verified feature

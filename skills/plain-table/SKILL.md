@@ -1,6 +1,7 @@
 ---
 name: plain-table
 description: Turn a technical findings list (code review, audit, bug list) into a plain-language before/after/benefit table. Use when user says "plain-table", "make it less technical", "put in table form", or "before/after/benefit table".
+disable-model-invocation: true
 ---
 
 # plain-table

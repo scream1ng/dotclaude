@@ -6,6 +6,7 @@ description: >
   that implement can build from in any session, not just the one where the discussion
   happened. Use when user says "/to-plan", "write this up as plan", "turn this into a
   plan", after a feature discussion or pointing at a plan/*.html prototype.
+disable-model-invocation: true
 ---
 
 # to-plan — discussion/prototype → durable plan doc

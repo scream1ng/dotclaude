@@ -9,6 +9,7 @@ description: >
   or anything in between; not tied to a specific point in any workflow. $ARGUMENTS
   names the file/URL to review; if omitted, use the most recently modified file in
   `plan/`.
+disable-model-invocation: true
 ---
 
 # design-review — design audit, findings only

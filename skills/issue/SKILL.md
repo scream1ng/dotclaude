@@ -1,6 +1,7 @@
 ---
 name: issue
 description: Fetch open GitHub issues, investigate codebase, report difficulty + DB-touch table. Use when user says "/issue", "check issues on github", "triage issues", or "which issues touch db".
+disable-model-invocation: true
 ---
 
 # issue

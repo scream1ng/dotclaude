@@ -5,6 +5,7 @@ description: >
   Use when user says "/migration-status", "how many outstanding migrations", "migrations
   between staging and prod", "what migrations are pending", or "migration diff".
   $ARGUMENTS may name environments to compare (default: staging vs prod).
+disable-model-invocation: true
 ---
 
 # migration-status — migration diff & pending count
