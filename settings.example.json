@@ -1,18 +1,5 @@
 {
   "model": "opus",
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "Bash|bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "lean-ctx hook rewrite"
-          }
-        ]
-      }
-    ]
-  },
   "enabledPlugins": {
     "github@claude-plugins-official": false,
     "railway@claude-plugins-official": false,

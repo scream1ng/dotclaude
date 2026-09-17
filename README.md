@@ -9,13 +9,10 @@ My [Claude Code](https://claude.com/claude-code) global config — instructions,
 
 | Path | What |
 |------|------|
-| `CLAUDE.md` | Global instructions: lean-ctx routing, Karpathy coding guidelines |
+| `CLAUDE.md` | Global instructions: Karpathy coding guidelines |
 | `statusline.ps1` | Custom status line: project, git branch/dirty/worktree, real 5h + 7-day usage bars |
-| `rules/lean-ctx.md` | lean-ctx tool-mapping rules (imported by `CLAUDE.md`) |
 | `PORTABLE.md` | Karpathy guidelines condensed for other agents (claude.ai custom instructions, Codex `AGENTS.md`) — not installed to `~/.claude` |
-| `tools/snipshot.cs` | Tray app: global hotkey (`Ctrl+Shift+S`) snips a region → saves PNG → copies its path (paste screenshots into Claude Code) |
-| `settings.example.json` | Sanitized `settings.json` (hooks, enabled plugins, marketplaces) |
-| `install.ps1` | Copy these files into `~/.claude` (with backups) |
+| `settings.example.json` | Sanitized `settings.json` (enabled plugins, marketplaces, status line) |
 
 ### Skills
 
@@ -94,28 +91,14 @@ You: /ship            → feat/mark-all-read → main, branch cleaned up
 
 ## Install
 
-```powershell
-.\install.ps1
-```
-
-Copy mode — re-run after editing repo files to re-sync. Overwritten files are backed up as `*.bak-<timestamp>`.
-
-### What `install.ps1` does automatically
-
-1. Copies into `~/.claude`: `CLAUDE.md`, `statusline.ps1`, `rules/lean-ctx.md`, and the `skills/*` (ship, migration-status, issue, handoff, grilling, grill-me, implement, prototype, to-plan, plain-table, plain-text, qa, design-system, design-review, diagnose, research, find-skills).
-2. Builds `tools/snipshot.exe` (in-box C# compiler — no SDK needed), registers it to auto-start at login (Startup-folder shortcut), and launches it. See [Clipboard image paste](#clipboard-image-paste-toolssnipshotcs).
-
-### What you still do by hand
-
-1. **Merge settings** — copy the blocks you want from `settings.example.json` into `~/.claude/settings.json` (review `enabledPlugins` / `mcpServers` / `statusLine` first; it is not copied automatically because it would overwrite live state).
-
-2. **Install external plugins** — see [External dependencies](#external-dependencies-install-separately) below (lean-ctx, karpathy-skills are separate repos/marketplaces).
+Copy by hand into `~/.claude`: `CLAUDE.md`, `statusline.ps1`, and the `skills/*` folders.
+Then merge the blocks you want from `settings.example.json` into `~/.claude/settings.json`
+(not copied automatically — it would overwrite live state).
 
 ## External dependencies (install separately)
 
 These are referenced by my config but live in their own projects:
 
-- **lean-ctx** — MCP context runtime. Install via its skill (`/lean-ctx`) or its repo.
 - **karpathy-skills** — `forrestchang/andrej-karpathy-skills`
 
 Add a marketplace in Claude Code:
@@ -144,29 +127,6 @@ Notes:
 - Reads the OAuth token from `~/.claude/.credentials.json` (kept fresh by Claude Code). If it ever expires, the usage segments silently drop; the rest of the bar still renders.
 - The usage endpoint is undocumented and may change; the script fails soft if it does.
 - To disable: delete the `statusLine` block from `settings.json`.
-
-## Clipboard image paste (`tools/snipshot.cs`)
-
-Claude Code on Windows **can't** accept a pasted clipboard image — `Ctrl+V` of image bytes is ignored ([claude-code#26679](https://github.com/anthropics/claude-code/issues/26679)). Only a file **path** or a drag-dropped file works. **SnipShot** is a tiny tray app that bridges the gap with a global hotkey:
-
-1. Press **`Ctrl+Shift+S`** — the Windows snip overlay opens; drag a region
-2. SnipShot saves the image as a PNG to `~\clip-shots\` and **copies that file's path to the clipboard** (tray balloon confirms)
-3. `Ctrl+V` in Claude Code drops the path — the harness resolves it to the image
-
-`Win+Shift+S` is left untouched, so it still puts a plain **image** on the clipboard for pasting into a browser. Two keys, two behaviours, no clipboard conflict.
-
-- **Build:** a single `~9 KB` `.exe` compiled from `snipshot.cs` by the in-box `csc.exe` — **no .NET SDK or runtime to install** (.NET Framework 4 ships with Windows). `install.ps1` builds and registers it automatically.
-- **Hotkey:** a real Win32 `RegisterHotKey` (not key polling) — reliable, no AltGr clash.
-- **Tray menu:** *Snip now* · *Open folder* · *Exit*. Double-click the tray icon also snips. The `~\clip-shots\` folder auto-trims to the newest 20 PNGs.
-- **Autostart:** a Startup-folder shortcut (`snipshot.lnk`) launches it every login. The shortcut hardcodes the exe path — if you move the repo, re-run `install.ps1` to rebuild it.
-
-Build by hand (if not using `install.ps1`):
-
-```powershell
-& "$env:WINDIR\Microsoft.NET\Framework64\v4.0.30319\csc.exe" /nologo /target:winexe `
-  /out:tools\snipshot.exe /reference:System.Drawing.dll /reference:System.Windows.Forms.dll `
-  tools\snipshot.cs
-```
 
 ## Before pushing
 

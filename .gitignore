@@ -14,9 +14,6 @@ session-env/
 history.jsonl
 .caveman-history.jsonl
 
-# Build artifacts (reproducible via install.ps1 / csc)
-tools/snipshot.exe
-
 # Machine state / caches (reproducible)
 file-history/
 paste-cache/
