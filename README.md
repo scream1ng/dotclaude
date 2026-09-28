@@ -13,6 +13,7 @@ My [Claude Code](https://claude.com/claude-code) global config — instructions,
 | `statusline.ps1` | Custom status line: project, git branch/dirty/worktree, real 5h + 7-day usage bars |
 | `PORTABLE.md` | Karpathy guidelines condensed for other agents (claude.ai custom instructions, Codex `AGENTS.md`) — not installed to `~/.claude` |
 | `settings.example.json` | Sanitized `settings.json` (enabled plugins, marketplaces, status line) |
+| `codex-config.example.toml` | Codex CLI status line fields for `~/.codex/config.toml` |
 
 ### Skills
 
@@ -94,6 +95,9 @@ You: /ship            → feat/mark-all-read → main, branch cleaned up
 Copy by hand into `~/.claude`: `CLAUDE.md`, `statusline.ps1`, and the `skills/*` folders.
 Then merge the blocks you want from `settings.example.json` into `~/.claude/settings.json`
 (not copied automatically — it would overwrite live state).
+
+For Codex CLI, merge the `[tui]` block from `codex-config.example.toml` into
+`~/.codex/config.toml`.
 
 ## External dependencies (install separately)
 
