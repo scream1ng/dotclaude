@@ -1,7 +1,6 @@
 ---
 name: handoff
 description: Compact the current conversation into a handoff document for a fresh agent to continue the work. Use when the user says "handoff", "hand this off", or wants to continue work in a new session/machine.
-disable-model-invocation: true
 ---
 
 Generate a handoff document that lets a fresh agent continue this work with no prior context, saved to the OS temporary directory (not the current workspace).

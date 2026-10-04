@@ -4,7 +4,6 @@ description: >
   Turn a plan/feature discussion into a picture-driven HTML mockup, saved under plan/.
   Use when user says "/prototype", "make a prototype", "mock this up", "show me what
   it'll look like" after a plan has been discussed. Low-text, visual-first output.
-disable-model-invocation: true
 ---
 
 # prototype — plan → visual HTML mockup
@@ -46,13 +45,14 @@ the user can look at shapes/layout/flow before any implementation happens.
      etc.) that flips the minority frames back. Check for this class before assuming a
      frame "isn't rendering" — a blank mobile or desktop frame is usually this, not a
      missing element.
-   - **The real stylesheet likely locks `html`/`body` height and overflow for the
-     app's own fixed-shell layout** (single-screen SPA behavior) — this breaks
-     page scroll on a mockup page stacking multiple frames. After the `<link>`,
-     add an override: `html, body { height: auto !important; overflow: auto !important;
-     position: static !important; }`. Do this by default whenever linking a real
-     app stylesheet into a multi-frame mockup, don't wait for the user to report
-     it's unscrollable.
+   - **The real stylesheet may lock `html`/`body` height, overflow, or scroll
+     chaining for a fixed-shell app.** For a multi-frame mockup, restore one page
+     scroller after the `<link>`: `html { height: auto !important; overflow-y: auto
+     !important; overscroll-behavior: auto !important; } body { height: auto
+     !important; overflow: visible !important; overscroll-behavior: auto
+     !important; }`. Override `position` too if the app fixes either element.
+     Check wheel or trackpad scrolling in the browser; Page Down alone can work
+     even when pointer scrolling is blocked.
    - If the plan has a flow/architecture shape worth showing (data merge, nav path),
      draw it as a simple boxes-and-arrows diagram (inline SVG or CSS), not a paragraph.
    - Trivial interactivity (tab/frame switching via CSS `:target` or a few lines of JS)

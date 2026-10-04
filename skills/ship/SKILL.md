@@ -6,7 +6,6 @@ description: >
   "push to github", or describes the end-of-work git dance. $ARGUMENTS optionally
   holds the commit message; if empty, generate one from the diff. Every trigger
   runs the full flow — there is no partial "commit only" mode.
-disable-model-invocation: true
 ---
 
 # ship — git release flow
@@ -27,11 +26,19 @@ branch (if needed) → commit → push → merge to main → push main → clean
    config, step in a documented flow) and the README wasn't updated to match, flag it in the
    report — do NOT edit the README yourself.
 5. Commit message: use `$ARGUMENTS` if given; else write a concise Conventional-Commits
-   message from the diff. End with the Co-Authored-By line.
-6. **Issue-linked work**: if the commit message contains `Closes/Fixes #N` (or the session
-   clearly implemented a GitHub issue), post a summary comment on the issue BEFORE pushing
-   the closing commit: `gh issue comment N --body <what shipped + how to use it>`. The
-   comment must land before the issue auto-closes.
+   message from the diff. End with the Co-Authored-By line. If the tree is clean (branch
+   already has its commits), skip the commit and continue.
+6. **Issue-linked work**: find issue `#N`:
+   - Strong (close without asking): `Closes/Fixes #N` in the commit message, `issue-N` in
+     the branch name, or the user named the issue in this session.
+   - Weak (ask once, close only on yes): bare `#N` in a commit subject, or issue inferred
+     from the work.
+   If confirmed and still open (`gh issue view N --json state`):
+   - Post a summary comment BEFORE pushing to main:
+     `gh issue comment N --body <what shipped + how to use it + any prod setup done>`.
+     The comment must land before the issue auto-closes.
+   - Close it: put `Closes #N` in the merge commit message (step 9). After pushing main,
+     verify with `gh issue view N --json state`; if still open, `gh issue close N`.
 7. `git push -u origin <branch>` — push the feature branch.
 8. **Locate the main checkout** — never merge to main from inside a feature worktree:
    - Compare `git rev-parse --git-common-dir` vs `--git-dir`. If they differ, you're in a
@@ -40,8 +47,11 @@ branch (if needed) → commit → push → merge to main → push main → clean
      Call it `<main_path>` (if not in a worktree, `<main_path>` is just the current directory).
    - All remaining merge/push/cleanup steps run against `<main_path>` via `git -C <main_path> ...`
      — do NOT `git checkout main` in the feature worktree itself, that just repurposes it.
+   - `main` below means the repo's default branch (`main` or `master`):
+     `git symbolic-ref --short refs/remotes/origin/HEAD`, strip `origin/`.
 9. Sync and merge at `<main_path>`: `git -C <main_path> checkout main && git -C <main_path> pull`,
-   then `git -C <main_path> merge --no-ff <branch>`. Stop and flag on conflict — do not auto-resolve.
+   then `git -C <main_path> merge --no-ff <branch> -m "Merge branch '<branch>'"` (add
+   `-m "Closes #N"` when step 6 confirmed an issue). Stop and flag on conflict — do not auto-resolve.
 10. Push main, with retry for concurrent agents merging around the same time:
    - `git -C <main_path> push origin main`.
    - If rejected (non-fast-forward): `git -C <main_path> fetch origin && git -C <main_path> merge origin/main`,
@@ -54,7 +64,7 @@ branch (if needed) → commit → push → merge to main → push main → clean
      plainly in the report, don't run further commands assuming the old path still exists.
    - `git -C <main_path> branch -d <branch>` (safe now — branch isn't checked out anywhere).
    - `git -C <main_path> push origin --delete <branch>`.
-12. Report: branch created (if any), commit hash, merged into main, issue commented (if any),
+12. Report: branch created (if any), commit hash, merged into main, issue commented + closed (if any),
     README flagged (if any), push retries if any occurred, branch + worktree deleted (local + remote).
 
 ## Rules
