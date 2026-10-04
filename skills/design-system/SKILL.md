@@ -6,7 +6,6 @@ description: >
   consistent. Use when user says "/design-system", "set up a design system", "create
   design guidelines", or asks for design consistency across features. One-time/rare
   step, not per-feature.
-disable-model-invocation: true
 ---
 
 # design-system — bootstrap DESIGN.md

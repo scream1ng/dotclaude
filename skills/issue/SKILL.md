@@ -1,7 +1,6 @@
 ---
 name: issue
 description: Fetch open GitHub issues, investigate codebase, report difficulty + DB-touch table. Use when user says "/issue", "check issues on github", "triage issues", or "which issues touch db".
-disable-model-invocation: true
 ---
 
 # issue
@@ -20,10 +19,17 @@ Fetch open GitHub issues for the current repo, investigate each against the code
    - Relevant files/tables (check `supabase/migrations/`, relevant `app/(dashboard)/` pages, `lib/validation.ts`)
    - Whether a DB migration is needed (new column/table) or existing schema/JSONB covers it
    - Difficulty: small/medium/large with 1-sentence reasoning
-4. Wait for all agents, then output one table:
+4. Check which branches already tackle issues:
+   ```
+   git fetch --all --quiet
+   git branch -a --sort=-committerdate
+   git log main..origin/<branch> --oneline   # per non-main/preview branch
+   ```
+   Match branches to issue numbers via commit messages (e.g. `(#34)`) or diff scope (`git diff main...origin/<branch> --stat`).
+5. Wait for all agents, then output one table:
 
-   | # | Issue | DB migration? | Difficulty |
+   | # | Issue | DB migration? | Difficulty | Branch tackling it |
 
-   Followed by two summary lines: **Touch DB:** list, **No DB, code-only:** list.
+   Use `—` when no branch touches the issue. Followed by three summary lines: **Touch DB:** list, **No DB, code-only:** list, **Untouched:** list of issues with no branch.
 
 Flag anything in an issue body that looks like a typo/contradiction (e.g. conflicting date math) rather than silently coding around it.

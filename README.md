@@ -17,11 +17,8 @@ My [Claude Code](https://claude.com/claude-code) global config — instructions,
 
 ### Skills
 
-Every skill except `diagnose` sets `disable-model-invocation: true` — it stays out of the
-model's skill roster (saving the per-session description budget) and runs only when you type
-its slash command. `CLAUDE.md` carries a bare name list so the model can still suggest one.
-`diagnose` stays auto-invocable because "this is broken" is how a bug gets described without
-thinking of tooling.
+Every skill is model-invocable — it runs when you type its slash command or when the model
+matches your request to its description.
 
 | Path | What |
 |------|------|
