@@ -24,9 +24,10 @@ Summary and anything a diagram genuinely can't carry (rationale, tradeoffs).
 ## Process
 
 1. **Determine the source.**
-   - If `plan/<feature>.html` from `prototype` exists — source is its embedded HTML
-     comment block (screens, fields, nav placement, open questions) plus anything
-     decided verbally since it was made.
+   - If `plan/<feature>.html` (or `plan/<feature>-logic.html`) from `prototype`
+     exists — source is its embedded HTML comment block (screens, fields, nav
+     placement, chosen variant, states/rules, open questions) plus anything decided
+     verbally since it was made.
    - Otherwise — source is this conversation's discussion. If nothing relevant is in
      context, ask one question for the feature; don't invent one.
 2. **Synthesize with an Opus-tier agent.** Structuring a plan is a planning-judgment
@@ -59,6 +60,8 @@ Summary and anything a diagram genuinely can't carry (rationale, tradeoffs).
      paragraphs per screen
    - Fields/data shape — a table (field | type/shape | source), not prose
    - Nav placement / entry points — inline on the diagram if it fits, else one line
+   - Test seams — a short list of where `implement` should verify behavior, at the
+     highest level that works (existing seams over new ones; ideally one)
    - Non-goals — short bullet list, if discussed
    - Open questions — short bullet list, left unresolved; implement should ask about
      these, not guess
@@ -111,6 +114,9 @@ diagram proves it ties.
 ## Rules
 
 - No implementation detail (no code, no file paths to touch) — that's `implement`'s job.
+  Exception: if a `prototype` logic demo validated a state machine/reducer/schema,
+  inline its decision-rich part (trimmed, noted as from the prototype) — it states the
+  rule more precisely than prose.
 - No app UI styling/components — that's `prototype`'s job; keep this a readable doc.
 - If the source is ambiguous or incomplete, mark it as an open question rather than
   guessing.
