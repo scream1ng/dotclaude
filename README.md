@@ -29,7 +29,7 @@ matches your request to its description.
 | `skills/grilling/` | Relentless one-at-a-time interview to stress-test a plan/decision before acting |
 | `skills/grill-me/` | Alias skill — runs `/grilling` |
 | `skills/implement/` | Pick up an HTML prototype or plan doc from `plan/` and build the real feature end-to-end |
-| `skills/prototype/` | Turn a plan/feature discussion into a picture-driven HTML mockup, saved under `plan/` |
+| `skills/prototype/` | Turn a plan/feature discussion into a picture-driven HTML mockup (3 variants by default) or a clickable logic demo, saved under `plan/` |
 | `skills/to-plan/` | Persist a discussion or prototype's decisions to `plan/<feature>.md` so `implement` can pick it up in a different session |
 | `skills/plain-table/` | Turn a technical findings list into a plain-language before/after/benefit table |
 | `skills/plain-text/` | Turn one technical explanation/plan/diff summary into short plain-language prose |
@@ -49,7 +49,7 @@ grilling → prototype → [to-plan] → implement → design-review → /code-r
 ```
 
 - **grilling** — stress-test the idea before writing code (premises, edge cases, scope)
-- **prototype** — low-text HTML mockup of the agreed shape, saved to `plan/`
+- **prototype** — low-text HTML mockup (3 switchable variants) or clickable logic demo, saved to `plan/`
 - **to-plan** (optional) — persist the discussion or prototype's decisions to
   `plan/<feature>.md`, if `implement` will run in a different session/worktree
 - **implement** — build the real feature from the mockup or plan doc, hunt bugs, run tests

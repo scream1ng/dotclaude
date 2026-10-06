@@ -1,9 +1,12 @@
 ---
 name: prototype
 description: >
-  Turn a plan/feature discussion into a picture-driven HTML mockup, saved under plan/.
-  Use when user says "/prototype", "make a prototype", "mock this up", "show me what
-  it'll look like" after a plan has been discussed. Low-text, visual-first output.
+  Turn a plan/feature discussion into a picture-driven HTML mockup (3 radically
+  different variants by default) or, for logic/state questions, a clickable state demo,
+  saved under plan/. Use when user says "/prototype", "make a prototype", "mock this up",
+  "show me what it'll look like", "give me a few layout options", or "does this
+  logic/state machine/flow hold up" after a plan has been discussed. Low-text,
+  visual-first output.
 ---
 
 # prototype — plan → visual HTML mockup
@@ -11,6 +14,15 @@ description: >
 Convert the plan already discussed in this conversation into a static, self-contained
 HTML mockup. This is NOT working code — no real API calls, no real data. It exists so
 the user can look at shapes/layout/flow before any implementation happens.
+
+## Pick a mode
+
+- **"What should this look like?"** → UI mockup, the Process below. Default.
+- **"Does this logic / state model hold up?"** (status transitions, edge cases, what's
+  legal when) → [LOGIC.md](LOGIC.md): a clickable state demo instead of a mockup.
+
+If ambiguous: a screen/page in the plan → UI; a status flow or backend rule → logic.
+State the assumption at the top of the file.
 
 ## Process
 
@@ -57,14 +69,29 @@ the user can look at shapes/layout/flow before any implementation happens.
      draw it as a simple boxes-and-arrows diagram (inline SVG or CSS), not a paragraph.
    - Trivial interactivity (tab/frame switching via CSS `:target` or a few lines of JS)
      is fine if it makes the mockup easier to read. No fetch/state/real logic.
+   - **Build 3 radically different variants** (cap 5) in the same file, each rendering
+     all the plan's frames. Variants must disagree on *structure* — layout,
+     information hierarchy, primary affordance — not colour or copy. If two drafts come
+     out alike, redo one with explicit "don't use <that layout>" guidance. Share small
+     pieces (real row renderers) freely; don't share the layout. Build only 1 if the
+     plan already pinned the layout or the user asks for one.
+   - **Variant switcher:** a fixed bottom-centre pill — `‹` · current label (e.g.
+     `B — sidebar list`) · `›` — wrapping around, plus `←`/`→` keys (ignored while an
+     input/textarea/contenteditable is focused). Store the variant in `location.hash`
+     (`#variant=B`) so it's reload-stable and works on `file://`. Style it visibly
+     unlike the app so it isn't mistaken for part of the design.
 4. Embed the plan's decisions as an HTML comment block at the top of the file
-   (screens, fields, nav placement, anything left open) so the file is self-sufficient
-   for `/implement` in a later session, without needing this conversation.
+   (screens, fields, nav placement, anything left open, and one line per variant
+   describing its structure) so the file is self-sufficient for `/implement` in a
+   later session, without needing this conversation. Include `Chosen variant: TBD`.
 5. **Save to `plan/<feature-kebab-name>.html`** at repo root (create `plan/` if missing).
    One file per feature/prototype round — if iterating on the same feature, overwrite
    the same file rather than creating `-v2`.
 6. Tell the user the path and to open it directly in a browser. Do not publish as an
    Artifact unless asked — this file is meant to live in the repo plan/ history.
+7. **When the user picks** (often "header from B, list from C"), update the comment
+   block's `Chosen variant:` line with the pick and any stolen pieces, so `/implement`
+   builds that and not variant A by default.
 
 ## Rules
 
